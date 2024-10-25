@@ -21,14 +21,14 @@ export class AuthHelper {
     return this.jwt.decode(token, null);
   }
 
-  public async validateUser(payload: any): Promise<User> {
-    if (!payload?._id) {
+  public async validateUser(payload: any): Promise<User | null> {
+    if (!payload?.id) {
       return null;
     }
 
-    const user: User = await this.userModel
+    const user: User | null = await this.userModel
       .findOne({
-        _id: Types.ObjectId.createFromHexString(payload._id),
+        _id: Types.ObjectId.createFromHexString(payload.id),
       })
       .exec();
 
@@ -43,14 +43,14 @@ export class AuthHelper {
   }
 
   // Validate JWT
-  private async validate(token: string): Promise<boolean | null> {
-    const decoded: unknown = this.jwt.verify(token);
+  public async validate(token: string): Promise<boolean | null> {
+    const decoded: any = this.jwt.verify(token);
 
-    if (!decoded) {
+    if (!decoded?.id) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
-    const user: User = await this.validateUser(decoded);
+    const user: User = await this.validateUser({ id: decoded.id });
 
     if (!user) {
       NoUserFoundError();

@@ -4,34 +4,40 @@ import { Document } from 'mongoose';
 @Schema()
 export class User extends Document {
   @Prop()
-  readonly name: string;
+  name: string;
 
-  @Prop({ required: true, unique: true })
-  readonly email: string;
+  @Prop({ unique: true })
+  email: string;
 
-  @Prop({ required: true, unique: true })
-  readonly username: string;
-
-  @Prop({ required: true })
-  readonly password: string;
+  @Prop({ unique: true })
+  username: string;
 
   @Prop()
-  readonly gender: string;
+  password: string;
 
   @Prop()
-  readonly birthday: Date;
+  accessToken: string;
 
   @Prop()
-  readonly horoscope: string;
+  gender: string;
 
   @Prop()
-  readonly zodiac: string;
+  birthday: Date;
 
   @Prop()
-  readonly height: string;
+  horoscope: string;
 
   @Prop()
-  readonly weight: string;
+  zodiac: string;
+
+  @Prop()
+  height: string;
+
+  @Prop()
+  weight: string;
+
+  @Prop()
+  interest: Array<{ type: string }>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

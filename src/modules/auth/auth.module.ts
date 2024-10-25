@@ -7,12 +7,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/database/schemas/user.schema';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService, ConfigModule } from '@nestjs/config';
+import { CustomPassportStrategy } from './passport.strategy';
 
 @Global()
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, AuthHelper],
+  providers: [AuthService, AuthHelper, CustomPassportStrategy],
   imports: [
+    ConfigModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],

@@ -10,6 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { NoUserFoundError, WrongPasswordError } from 'src/errors/ResourceError';
 import { TokenPayloadDto } from './dto/token-payload.dto';
 import { TokenType } from 'src/types/enum/token-type';
+import { SelfRequestDto, SelfUser } from './dto/self-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +32,7 @@ export class AuthService {
 
     if (validateWith.id) {
       query._id = new Types.ObjectId(validateWith.id);
+      console.log('Querying user with ID:', query._id);
     }
 
     if (validateWith.username) {
@@ -69,14 +71,38 @@ export class AuthService {
 
     const token = new TokenPayloadDto();
     token.accessToken = await this.helper.generateToken({
-      id: JSON.stringify(user._id),
+      id: user._id.toString(),
       type: TokenType.ACCESS_TOKEN,
     });
+
+    user.accessToken = token.accessToken;
+    user.save();
 
     const loginPayload = new AuthLogin();
     loginPayload.ownerUser = user.username;
     loginPayload.accessToken = token.accessToken;
 
     return loginPayload;
+  }
+
+  // Get Profile
+  public async getProfile(self: SelfRequestDto): Promise<SelfUser> {
+    const user = await this.validateUser({
+      id: self.id,
+    });
+
+    const selfUser = new SelfUser();
+    selfUser.name = user.name;
+    selfUser.username = user.username;
+    selfUser.email = user.email;
+    selfUser.birthday = user.birthday;
+    selfUser.gender = user.gender;
+    selfUser.horoscope = user.horoscope;
+    selfUser.zodiac = user.zodiac;
+    selfUser.height = user.height;
+    selfUser.weight = user.weight;
+    selfUser.interest = user.interest;
+
+    return selfUser;
   }
 }
