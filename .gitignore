@@ -4,6 +4,7 @@
 /build
 .yarn
 .env
+storages
 
 # Logs
 logs

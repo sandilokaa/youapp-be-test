@@ -37,6 +37,9 @@ export class User extends Document {
   weight: string;
 
   @Prop()
+  image: string;
+
+  @Prop()
   interest: Array<{ type: string }>;
 }
 
