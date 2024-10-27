@@ -43,7 +43,7 @@ export class UpdateProfileDto {
   image?: string;
 
   @IsOptional()
-  @IsString()
-  @ApiProperty()
-  interest?: Array<{ type: string }>;
+  @IsString({ each: true })
+  @ApiProperty({ type: [String] })
+  interest?: string[];
 }

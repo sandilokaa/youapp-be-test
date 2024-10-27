@@ -8,7 +8,7 @@ export class SelfUser {
   zodiac: string;
   height: string;
   weight: string;
-  interest: Array<{ type: string }>;
+  interest: string[];
 }
 
 export class SelfRequestDto {

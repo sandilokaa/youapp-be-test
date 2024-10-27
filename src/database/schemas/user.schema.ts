@@ -39,8 +39,8 @@ export class User extends Document {
   @Prop()
   image: string;
 
-  @Prop()
-  interest: Array<{ type: string }>;
+  @Prop({ type: [String], default: [] })
+  interest: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
