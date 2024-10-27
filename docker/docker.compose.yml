@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      -'3000:3000'
+    environment:
+      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+      - JWT_SECRET=mySuperSecretKey
+    depends_on:
+      - mongo
+      - rabbitmq
