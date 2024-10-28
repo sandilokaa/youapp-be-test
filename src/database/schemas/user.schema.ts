@@ -22,7 +22,7 @@ export class User extends Document {
   gender: string;
 
   @Prop()
-  birthday: Date;
+  birthday: string;
 
   @Prop()
   horoscope: string;

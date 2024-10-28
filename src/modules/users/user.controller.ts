@@ -15,7 +15,9 @@ import { JwtAuthGuard } from '../auth/auth.guard';
 import { UpdateProfileDto } from './dto/update-user.dto';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -28,8 +30,10 @@ export class UserController {
   }
 
   // Update Profile
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
   @Put('/updateProfile/:id')
   async updateProfile(
     @Param('id') id: string,
@@ -44,8 +48,6 @@ export class UserController {
       userId,
       file,
     );
-
-    console.log(file);
 
     return { data: data };
   }

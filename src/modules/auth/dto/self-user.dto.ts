@@ -2,7 +2,7 @@ export class SelfUser {
   username: string;
   name: string;
   email: string;
-  birthday: Date;
+  birthday: string;
   gender: string;
   horoscope: string;
   zodiac: string;
