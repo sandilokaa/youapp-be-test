@@ -13,7 +13,7 @@ import { UserLoginDto } from './dto/user-login.dto';
 import { AuthService } from './auth.service';
 import { ApiOkResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthLogin } from './dto/login-payload.dto';
-import { Public } from 'src/decorators/public.decorator';
+import { Public } from '../../decorators/public.decorator';
 import { JwtAuthGuard } from './auth.guard';
 import { Request } from 'express';
 

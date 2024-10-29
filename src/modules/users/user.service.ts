@@ -3,14 +3,14 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { User } from 'src/database/schemas/user.schema';
+import { User } from '../../database/schemas/user.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { hashPassword } from 'src/helpers/password.helper';
+import { hashPassword } from '../../helpers/password.helper';
 import {
   NoUserFoundError,
   UserAlreadyExistsError,
-} from 'src/errors/ResourceError';
+} from '../../errors/ResourceError';
 import { RegisterUserDto } from './dto/user-register.dto';
 import { UpdateProfileDto } from './dto/update-user.dto';
 import path from 'path';

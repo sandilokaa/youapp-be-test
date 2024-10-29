@@ -1,15 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthHelper } from 'src/helpers/auth.helper';
+import { AuthHelper } from '../../helpers/auth.helper';
 import { UserLoginDto } from './dto/user-login.dto';
-import { User } from 'src/database/schemas/user.schema';
+import { User } from '../../database/schemas/user.schema';
 import { AuthLogin } from './dto/login-payload.dto';
-import { validateHash } from 'src/helpers/password.helper';
+import { validateHash } from '../../helpers/password.helper';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { NoUserFoundError, WrongPasswordError } from 'src/errors/ResourceError';
+import {
+  NoUserFoundError,
+  WrongPasswordError,
+} from '../../errors/ResourceError';
 import { TokenPayloadDto } from './dto/token-payload.dto';
-import { TokenType } from 'src/types/enum/token-type';
+import { TokenType } from '../../types/enum/token-type';
 import { SelfRequestDto, SelfUser } from './dto/self-user.dto';
 
 @Injectable()
@@ -23,7 +26,7 @@ export class AuthService {
   ) {}
 
   // Validate User
-  private async validateUser(validateWith: {
+  public async validateUser(validateWith: {
     id?: string;
     username?: string;
     email?: string;
@@ -32,7 +35,6 @@ export class AuthService {
 
     if (validateWith.id) {
       query._id = new Types.ObjectId(validateWith.id);
-      console.log('Querying user with ID:', query._id);
     }
 
     if (validateWith.username) {
@@ -101,6 +103,7 @@ export class AuthService {
     selfUser.zodiac = user.zodiac;
     selfUser.height = user.height;
     selfUser.weight = user.weight;
+    selfUser.image = user.image;
     selfUser.interest = user.interest;
 
     return selfUser;

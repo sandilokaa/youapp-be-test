@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/database/schemas/user.schema';
+import { User } from '../database/schemas/user.schema';
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { NoUserFoundError } from 'src/errors/ResourceError';
+import { NoUserFoundError } from '../errors/ResourceError';
 
 @Injectable()
 export class AuthHelper {

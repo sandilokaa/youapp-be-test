@@ -8,6 +8,7 @@ export class SelfUser {
   zodiac: string;
   height: string;
   weight: string;
+  image: string;
   interest: string[];
 }
 

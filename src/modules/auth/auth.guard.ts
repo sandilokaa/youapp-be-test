@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard, IAuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
-import { User } from 'src/database/schemas/user.schema';
+import { User } from '../../database/schemas/user.schema';
 import { Request } from 'express';
 
 @Injectable()
