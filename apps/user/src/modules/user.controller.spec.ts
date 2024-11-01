@@ -4,7 +4,7 @@ import { UserService } from './user.service';
 import { UpdateProfileDto } from './dto/update-user.dto';
 import { Request } from 'express';
 
-jest.mock('./guards/jwt-auth.guard');
+jest.mock('../../../auth/src/modules/guards/jwt-auth.guard');
 
 describe('User Controller', () => {
   let userController: UserController;
