@@ -15,7 +15,7 @@ import { Public } from '../decorators/public.decorator';
 import { UserLoginDto } from './dto/user-login.dto';
 import { AuthLogin } from './dto/login-payload.dto';
 import { Request } from 'express';
-import JwtAuthGuard from './guards/jwt-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller()
