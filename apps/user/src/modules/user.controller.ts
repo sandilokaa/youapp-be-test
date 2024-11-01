@@ -13,7 +13,7 @@ import { UpdateProfileDto } from './dto/update-user.dto';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import JwtAuthGuard from './guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../auth/src/modules/guards/jwt-auth.guard';
 
 @ApiTags('User')
 @Controller()

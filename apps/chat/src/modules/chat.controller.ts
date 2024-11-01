@@ -3,7 +3,7 @@ import { ChatService } from './chat.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Request } from 'express';
-import JwtAuthGuard from '../guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../auth/src/modules/guards/jwt-auth.guard';
 
 @Controller()
 export class ChatController {
