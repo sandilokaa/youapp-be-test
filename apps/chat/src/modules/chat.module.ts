@@ -11,10 +11,12 @@ import { AuthHelper } from '../../../auth/src/helpers/auth.helper';
 import { RabbitMQModule } from '../../../rabbitmq/src/modules/rabbitmq.module';
 import { AuthModule } from '../../../auth/src/modules/auth.module';
 import { ChatGateway } from './chat.gateway';
+import { UserModule } from '../../../user/src/modules/user.module';
 
 @Module({
   imports: [
     AuthModule,
+    UserModule,
     RabbitMQModule,
     ConfigModule,
     MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }]),
