@@ -7,6 +7,7 @@ import {
   ExpressAdapter,
 } from '@nestjs/platform-express';
 import helmet from 'helmet';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -26,6 +27,17 @@ async function bootstrap(): Promise<NestExpressApplication> {
   app.use(bodyParser.json());
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+
+  // Documentation (Swagger)
+  const config = new DocumentBuilder()
+    .setTitle('You App')
+    .setDescription('This is you app endpoint')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('/api/swagger', app, document);
 
   const port = 3003;
   await app.listen(port);
