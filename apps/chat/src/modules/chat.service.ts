@@ -45,7 +45,7 @@ export class ChatService implements OnModuleInit {
     });
   }
 
-  async viewMessage(userId: string, receiverId: string) {
+  async viewMessages(userId: string, receiverId: string) {
     return await this.chatModel
       .find({
         $or: [

@@ -32,12 +32,12 @@ export class ChatController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('viewMessages')
-  async viewMessage(
+  async viewMessages(
     @Query('receiverId') receiverId: string,
     @Req() req: Request,
   ) {
     const userId = String(req.user._id);
-    const data = await this.chatService.viewMessage(userId, receiverId);
+    const data = await this.chatService.viewMessages(userId, receiverId);
     return { data: data };
   }
 }
