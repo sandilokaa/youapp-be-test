@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  Query,
+  Get,
+} from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -19,5 +27,17 @@ export class ChatController {
     const userId = String(req.user._id);
     await this.chatService.sendMessage(sendMessageDto, userId);
     return { message: 'Message sent successfully' };
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('viewMessages')
+  async viewMessage(
+    @Query('receiverId') receiverId: string,
+    @Req() req: Request,
+  ) {
+    const userId = String(req.user._id);
+    const data = await this.chatService.viewMessage(userId, receiverId);
+    return { data: data };
   }
 }

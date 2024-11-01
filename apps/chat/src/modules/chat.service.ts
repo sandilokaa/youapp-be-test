@@ -44,4 +44,15 @@ export class ChatService implements OnModuleInit {
       await newMessage.save();
     });
   }
+
+  async viewMessage(userId: string, receiverId: string) {
+    return await this.chatModel
+      .find({
+        $or: [
+          { userId, receiverId },
+          { userId: receiverId, receiverId: userId },
+        ],
+      })
+      .sort({ createdAt: 'asc' });
+  }
 }
