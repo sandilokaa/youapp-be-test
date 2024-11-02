@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  auth:
+    build:
+      context: ./apps/auth
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+    depends_on:
+      - mongodb
+
+  user:
+    build:
+      context: ./apps/user
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+    depends_on:
+      - mongodb
+
+  chat:
+    build:
+      context: ./apps/chat
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3000"
+    environment:
+      - PORT=3000
+      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+      - RABBITMQ_URI=amqp://rabbitmq:5672
+    depends_on:
+      - rabbitmq
+      - mongodb
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
