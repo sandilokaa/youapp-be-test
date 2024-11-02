@@ -1,21 +1,10 @@
-import {
-  Controller,
-  Post,
-  Body,
-  HttpCode,
-  HttpStatus,
-  UseGuards,
-  Get,
-  Req,
-} from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/user-register.dto';
-import { ApiTags, ApiOkResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { Public } from '../decorators/public.decorator';
 import { UserLoginDto } from './dto/user-login.dto';
 import { AuthLogin } from './dto/login-payload.dto';
-import { Request } from 'express';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller()
@@ -41,17 +30,5 @@ export class AuthController {
     const login = await this.authService.login(userLoginDto);
 
     return { data: login };
-  }
-
-  // Get Profile
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @Get('/getProfile')
-  async getProfile(@Req() req: Request) {
-    const self = await this.authService.getProfile({
-      id: String(req.user._id),
-    });
-
-    return { data: self };
   }
 }

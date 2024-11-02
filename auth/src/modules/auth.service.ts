@@ -15,16 +15,16 @@ import { TokenType } from '../types/enum/token-type';
 import { AuthLogin } from './dto/login-payload.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { AuthHelper } from '../helpers/auth.helper';
-import { SelfRequestDto, SelfUser } from './dto/self-user.dto';
+import { HttpService } from '@nestjs/axios';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class AuthService {
-  @Inject(AuthHelper)
-  private readonly helper: AuthHelper;
-
   constructor(
     private readonly jwtService: JwtService,
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private readonly httpService: HttpService,
+    @Inject(AuthHelper) private readonly helper: AuthHelper,
   ) {}
 
   // Check Duplicate Email
@@ -51,7 +51,25 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return createdUser.save();
+    const savedUser = await createdUser.save();
+
+    await this.syncUserProfile(savedUser);
+
+    return savedUser;
+  }
+
+  // Sync Profile
+  async syncUserProfile(user: User): Promise<void> {
+    const profileData = {
+      userId: user._id.toString(),
+    };
+
+    await lastValueFrom(
+      this.httpService.post(
+        'http://localhost:3002/api/createProfile',
+        profileData,
+      ),
+    );
   }
 
   // Validate User
@@ -114,27 +132,5 @@ export class AuthService {
     loginPayload.accessToken = token.accessToken;
 
     return loginPayload;
-  }
-
-  // Get Profile
-  public async getProfile(self: SelfRequestDto): Promise<SelfUser> {
-    const user = await this.validateUser({
-      id: self.id,
-    });
-
-    const selfUser = new SelfUser();
-    selfUser.name = user.name;
-    selfUser.username = user.username;
-    selfUser.email = user.email;
-    selfUser.birthday = user.birthday;
-    selfUser.gender = user.gender;
-    selfUser.horoscope = user.horoscope;
-    selfUser.zodiac = user.zodiac;
-    selfUser.height = user.height;
-    selfUser.weight = user.weight;
-    selfUser.image = user.image;
-    selfUser.interest = user.interest;
-
-    return selfUser;
   }
 }

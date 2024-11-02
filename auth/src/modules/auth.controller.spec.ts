@@ -4,7 +4,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UserLoginDto } from './dto/user-login.dto';
 import { RegisterUserDto } from './dto/user-register.dto';
-import { Request } from 'express';
 
 jest.mock('./guards/jwt-auth.guard');
 
@@ -15,7 +14,6 @@ describe('AuthController', () => {
   const mockAuthService = {
     register: jest.fn(),
     login: jest.fn(),
-    getProfile: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -72,36 +70,6 @@ describe('AuthController', () => {
       });
 
       expect(mockAuthService.login).toHaveBeenCalledWith(userLoginDto);
-    });
-  });
-
-  describe('getProfile', () => {
-    it('should return user profile', async () => {
-      const req = {
-        user: { _id: 'userId' },
-      } as Request;
-
-      const result = {
-        name: 'Sandilokaa',
-        username: 'sandilokaa',
-        email: 'sandilokaa@example.com',
-        birthday: '1990-01-01',
-        gender: 'male',
-        horoscope: 'Aries',
-        zodiac: 'aries',
-        height: 180,
-        weight: 75,
-        image: 'storages/1730016811142-3x4.jpeg',
-        interest: [],
-      };
-
-      mockAuthService.getProfile.mockResolvedValue(result);
-
-      expect(await authController.getProfile(req)).toEqual({
-        data: result,
-      });
-
-      expect(mockAuthService.getProfile).toHaveBeenCalledWith({ id: 'userId' });
     });
   });
 });

@@ -8,10 +8,14 @@ import { CustomPassportStrategy } from './passport.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { HttpModule } from '@nestjs/axios';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Reflector } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule,
+    HttpModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -24,7 +28,22 @@ import { JwtModule } from '@nestjs/jwt';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, AuthHelper, CustomPassportStrategy],
-  exports: [CustomPassportStrategy, AuthHelper, MongooseModule],
+  providers: [
+    AuthService,
+    AuthHelper,
+    CustomPassportStrategy,
+    JwtAuthGuard,
+    Reflector,
+  ],
+  exports: [
+    AuthService,
+    AuthHelper,
+    CustomPassportStrategy,
+    MongooseModule,
+    JwtModule,
+    ConfigModule,
+    JwtAuthGuard,
+    Reflector,
+  ],
 })
 export class AuthModule {}

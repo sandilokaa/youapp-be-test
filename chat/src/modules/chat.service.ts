@@ -1,17 +1,13 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { SendMessageDto } from './dto/send-message.dto';
 import { Chat } from '../database/schema/chat.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { RabbitMQService } from '../../../rabbitmq/src/modules/rabbitmq.service';
-import { AuthHelper } from '../../../auth/src/helpers/auth.helper';
 import { ChatGateway } from './chat.gateway';
 
 @Injectable()
 export class ChatService implements OnModuleInit {
-  @Inject(AuthHelper)
-  private readonly helper: AuthHelper;
-
   constructor(
     private readonly chatGateway: ChatGateway,
     private readonly rabbitMQService: RabbitMQService,

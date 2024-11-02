@@ -22,7 +22,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') implements IAuthGuard {
   }
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
-    await super.canActivate(context);
+    const canActivate = await super.canActivate(context);
+    if (!canActivate) {
+      return false;
+    }
 
     const isPublic = this.reflector.get<boolean>(
       'isPublic',

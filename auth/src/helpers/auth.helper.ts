@@ -7,18 +7,14 @@ import { NoUserFoundError } from '../errors/ResourceError';
 
 @Injectable()
 export class AuthHelper {
-  private readonly jwt: JwtService;
-
   constructor(
-    jwt: JwtService,
+    private readonly jwt: JwtService,
     @InjectModel(User.name) private readonly userModel: Model<User>,
-  ) {
-    this.jwt = jwt;
-  }
+  ) {}
 
   // Decoding the JWT
   public async decode(token: string): Promise<unknown> {
-    return this.jwt.decode(token, null);
+    return this.jwt.decode(token);
   }
 
   public async validateUser(payload: any): Promise<User | null> {

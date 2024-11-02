@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { UpdateProfileDto } from './dto/update-user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Request } from 'express';
 
 jest.mock('../../../auth/src/modules/guards/jwt-auth.guard');
@@ -11,6 +11,7 @@ describe('User Controller', () => {
 
   const mockUserService = {
     updateProfile: jest.fn(),
+    getProfile: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -25,6 +26,35 @@ describe('User Controller', () => {
     }).compile();
 
     userController = module.get<UserController>(UserController);
+  });
+
+  describe('getProfile', () => {
+    it('should return user profile', async () => {
+      const req = {
+        user: { _id: 'userId' },
+      } as Request;
+
+      const result = {
+        name: 'Sandilokaa',
+        username: 'sandilokaa',
+        birthday: '1990-01-01',
+        gender: 'male',
+        horoscope: 'Aries',
+        zodiac: 'aries',
+        height: 180,
+        weight: 75,
+        image: 'storages/1730016811142-3x4.jpeg',
+        interest: [],
+      };
+
+      mockUserService.getProfile.mockResolvedValue(result);
+
+      expect(await userController.getProfile(req)).toEqual({
+        data: result,
+      });
+
+      expect(mockUserService.getProfile).toHaveBeenCalledWith({ id: 'userId' });
+    });
   });
 
   describe('updateProfile', () => {

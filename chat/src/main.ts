@@ -1,5 +1,5 @@
 import * as bodyParser from 'body-parser';
-import { NestFactory } from '@nestjs/core';
+import { AbstractHttpAdapter, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import {
@@ -12,7 +12,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap(): Promise<NestExpressApplication> {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
-    new ExpressAdapter(),
+    new ExpressAdapter() as unknown as AbstractHttpAdapter<any, any, any>,
     {
       logger: ['error', 'warn'],
       cors: true,

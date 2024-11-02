@@ -2,19 +2,19 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from '../database/schema/user.schema';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CustomPassportStrategy } from '../../../auth/src/modules/passport.strategy';
-import { AuthHelper } from '../../../auth/src/helpers/auth.helper';
+import { Profile, ProfileSchema } from '../database/schema/profile.schema';
+import { AuthModule } from '../../../auth/src/modules/auth.module';
 
 @Module({
   imports: [
     ConfigModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    AuthModule,
+    MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -35,6 +35,7 @@ import { AuthHelper } from '../../../auth/src/helpers/auth.helper';
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, AuthHelper, CustomPassportStrategy],
+  providers: [UserService],
+  exports: [UserService],
 })
 export class UserModule {}
