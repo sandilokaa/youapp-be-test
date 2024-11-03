@@ -12,6 +12,7 @@ describe('ChatController', () => {
   const mockChatService = {
     sendMessage: jest.fn(),
     viewMessages: jest.fn(),
+    getRecentMessages: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -53,6 +54,31 @@ describe('ChatController', () => {
 
       expect(mockChatService.sendMessage).toHaveBeenCalledWith(
         sendMessageDto,
+        String(req.user._id),
+      );
+    });
+  });
+
+  describe('recentMessages', () => {
+    it('should return recent message from sender to receiver or vice versa', async () => {
+      const req = {
+        user: { _id: 'userId' },
+      } as Request;
+
+      const result = [
+        {
+          userId: 'userId',
+          content: 'Haloo',
+          receiverId: 'receiverId',
+        },
+      ];
+
+      mockChatService.getRecentMessages.mockResolvedValue(result);
+
+      const response = await chatController.getRecentMessages(req);
+
+      expect(response).toEqual({ data: result });
+      expect(mockChatService.getRecentMessages).toHaveBeenCalledWith(
         String(req.user._id),
       );
     });
