@@ -31,6 +31,15 @@ export class ChatController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
+  @Get('recentMessages')
+  async getRecentMessages(@Req() req: Request) {
+    const userId = String(req.user._id);
+    const recentMessages = await this.chatService.getRecentMessages(userId);
+    return { data: recentMessages };
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('viewMessages')
   async viewMessages(
     @Query('receiverId') receiverId: string,

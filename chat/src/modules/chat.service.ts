@@ -41,6 +41,25 @@ export class ChatService implements OnModuleInit {
     });
   }
 
+  async getRecentMessages(userId: string) {
+    return await this.chatModel.aggregate([
+      {
+        $match: {
+          $or: [{ userId: userId }, { receiverId: userId }],
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $cond: [{ $eq: ['$userId', userId] }, '$receiverId', '$userId'],
+          },
+          lastMessage: { $last: '$content' },
+          lastTimestamp: { $last: '$createdAt' },
+        },
+      },
+    ]);
+  }
+
   async viewMessages(userId: string, receiverId: string) {
     return await this.chatModel
       .find({
