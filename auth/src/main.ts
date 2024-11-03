@@ -33,7 +33,6 @@ async function bootstrap(): Promise<NestExpressApplication> {
     .setTitle('You App')
     .setDescription('This is you app endpoint')
     .setVersion('1.0')
-    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
