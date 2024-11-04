@@ -1,10 +1,12 @@
-FROM node:18
+FROM node:18.18.0
 
-WORKDIR /usr/src/auth-service
+WORKDIR /usr/src/user-service
 
-COPY package*.json ./
+COPY package*.json tsconfig.json ./
 
 RUN yarn install
+
+COPY ../auth /usr/src/user-service/auth
 
 COPY . .
 

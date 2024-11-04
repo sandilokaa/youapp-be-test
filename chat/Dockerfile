@@ -1,10 +1,13 @@
-FROM node:18
+FROM node:18.18.0
 
 WORKDIR /usr/src/chat-service
 
-COPY package*.json ./
+COPY package*.json tsconfig.json ./
 
 RUN yarn install
+
+COPY ../auth /usr/src/chat-service/auth
+COPY ../user /usr/src/chat-service/user
 
 COPY . .
 
