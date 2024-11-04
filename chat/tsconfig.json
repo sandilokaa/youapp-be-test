@@ -17,6 +17,11 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@auth/*": ["../auth/src/*"],
+      "@user/*": ["../user/src/*"],
+      "@rmq/*": ["../rabbitmq/src/*"],
+    },
     "typeRoots": ["./node_modules/@types", "./src/types/**/*"]
   }
 }

@@ -6,9 +6,9 @@ import { Chat, ChatSchema } from '../database/schema/chat.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { RabbitMQModule } from '../../../rabbitmq/src/modules/rabbitmq.module';
-import { AuthModule } from '../../../auth/src/modules/auth.module';
-import { UserModule } from '../../../user/src/modules/user.module';
+import { RabbitMQModule } from '@rmq/modules/rabbitmq.module';
+import { AuthModule } from '@auth/modules/auth.module';
+import { UserModule } from '@user/modules/user.module';
 import { ChatGateway } from './chat.gateway';
 
 @Module({
