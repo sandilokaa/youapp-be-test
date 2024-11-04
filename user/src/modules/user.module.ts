@@ -8,7 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Profile, ProfileSchema } from '../database/schema/profile.schema';
-import { AuthModule } from '../../../auth/src/modules/auth.module';
+import { AuthModule } from '@auth/modules/auth.module';
 
 @Module({
   imports: [

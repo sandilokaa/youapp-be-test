@@ -15,7 +15,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Request } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../../auth/src/modules/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '@auth/modules/guards/jwt-auth.guard';
 import { Profile } from '../database/schema/profile.schema';
 import { CreateProfileDto } from './dto/create-profile.dto';
 
