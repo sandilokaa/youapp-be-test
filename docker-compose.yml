@@ -2,39 +2,48 @@ version: '3.8'
 
 services:
   auth:
+    container_name: auth-service
     build:
       context: ./apps/auth
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
+      - "3001:3001"
     environment:
-      - PORT=3000
-      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+      - PORT=3001
+      - MONGODB_URI=mongodb://host.docker.internal:27017/you-app-db
+      - JWT_SECRET=mySuperSecretKey
+      - JWT_EXPIRESIN=3h
     depends_on:
       - mongodb
 
   user:
+    container_name: user-service
     build:
-      context: ./apps/user
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: ./user/Dockerfile
     ports:
-      - "3002:3000"
+      - "3002:3002"
     environment:
-      - PORT=3000
-      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+      - PORT=3002
+      - MONGODB_URI=mongodb://host.docker.internal:27017/you-app-db
+      - JWT_SECRET=mySuperSecretKey
+      - JWT_EXPIRESIN=3h
     depends_on:
       - mongodb
 
   chat:
+    container_name: chat-service
     build:
-      context: ./apps/chat
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: ./chat/Dockerfile
     ports:
-      - "3003:3000"
+      - "3003:3004"
     environment:
-      - PORT=3000
-      - MONGODB_URI=mongodb://localhost:27017/you-app-db
+      - PORT=3004
+      - MONGODB_URI=mongodb://host.docker.internal:27017/you-app-db
       - RABBITMQ_URI=amqp://rabbitmq:5672
+      - JWT_SECRET=mySuperSecretKey
+      - JWT_EXPIRESIN=3h
     depends_on:
       - rabbitmq
       - mongodb
@@ -46,7 +55,8 @@ services:
       - "15672:15672"
 
   mongodb:
-    image: mongo:latest
+    image: mongo
+    container_name: mongodb
     ports:
       - "27017:27017"
     volumes:
