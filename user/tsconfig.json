@@ -17,6 +17,9 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@auth/*": ["../auth/src/*"],
+    },
     "typeRoots": ["./node_modules/@types", "./src/types/**/*"]
   }
 }
